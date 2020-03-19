@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, redirect
+from flask import Flask, render_template, request
 from flask_bootstrap import Bootstrap
 
 
@@ -29,12 +29,20 @@ def contact():
 
 @app.route('/signin', methods=['GET', 'POST'])
 def signin():
-    return render_template("signin.html", title='Войти')
+    if request.method == 'GET':
+        return render_template("signin.html", title='Войти')
+    else:
+        # TODO: POST
+        pass
 
 
-@app.route('/signup')
+@app.route('/signup', methods=['GET', 'POST'])
 def signup():
-    return render_template("signup.html", title='Регистрация')
+    if request.method == 'GET':
+        return render_template("signup.html", title='Регистрация')
+    else:
+        # TODO: POST
+        pass
 
 
 if __name__ == "__main__":
