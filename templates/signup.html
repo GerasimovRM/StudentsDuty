@@ -1,12 +1,15 @@
 {% extends "base.html" %}
 {% block content %}
+<form action="" method="post">
+    {{ form.hidden_tag() }}
+	{{ form.csrf_token }}
 	<header id="head" class="secondary"></header>
 
 	<!-- container -->
 	<div class="container">
 
 		<ol class="breadcrumb">
-			<li><a href="index.html">Главная</a></li>
+			<li><a href="{{ url_for('index') }}">Главная</a></li>
 			<li class="active">Регистрация</li>
 		</ol>
 
@@ -22,31 +25,47 @@
 					<div class="panel panel-default">
 						<div class="panel-body">
 							<h3 class="thin text-center">Регистрация нового пользователя</h3>
-							<p class="text-center text-muted">Для входа перейдите: <a href="signin.html">Войти</a></p>
+							<p class="text-center text-muted">Для входа перейдите: <a href="{{ url_for('signin') }}">Войти</a></p>
 							<hr>
 
 							<form>
 								<div class="top-margin">
-									<label>First Name</label>
-									<input type="text" class="form-control">
+									{{ form.name.label }}<br>
+									{{ form.name(class="form-control") }}<br>
+									{% for error in form.name.errors %}
+										<p class="alert alert-danger" role="alert">
+											{{ error }}
+										</p>
+									{% endfor %}
 								</div>
 								<div class="top-margin">
-									<label>Last Name</label>
-									<input type="text" class="form-control">
-								</div>
-								<div class="top-margin">
-									<label>Email Address <span class="text-danger">*</span></label>
-									<input type="text" class="form-control">
+									{{ form.email.label }}<br>
+									{{ form.email(class="form-control", type="email") }}<br>
+									{% for error in form.email.errors %}
+										<p class="alert alert-danger" role="alert">
+											{{ error }}
+										</p>
+									{% endfor %}
 								</div>
 
 								<div class="row top-margin">
 									<div class="col-sm-6">
-										<label>Password <span class="text-danger">*</span></label>
-										<input type="text" class="form-control">
+										{{ form.password.label }}<br>
+										{{ form.password(class="form-control", type="password") }}<br>
+										{% for error in form.password.errors %}
+											<p class="alert alert-danger" role="alert">
+												{{ error }}
+											</p>
+										{% endfor %}
 									</div>
 									<div class="col-sm-6">
-										<label>Confirm Password <span class="text-danger">*</span></label>
-										<input type="text" class="form-control">
+										{{ form.password_again.label }}<br>
+										{{ form.password_again(class="form-control", type="password") }}<br>
+										{% for error in form.password_again.errors %}
+											<p class="alert alert-danger" role="alert">
+												{{ error }}
+											</p>
+										{% endfor %}
 									</div>
 								</div>
 
@@ -54,14 +73,15 @@
 
 								<div class="row">
 									<div class="col-lg-8">
-										<label class="checkbox">
-											<input type="checkbox"> 
-											I've read the <a href="page_terms.html">Terms and Conditions</a>
-										</label>                        
+										{{ form.terms() }} {{ form.terms.label }}<br>
+										I've read the <a href="page_terms.html">Terms and Conditions</a>
 									</div>
 									<div class="col-lg-4 text-right">
-										<button class="btn btn-action" type="submit">Register</button>
+										{{ form.submit(type="submit", class="btn btn-primary") }}
 									</div>
+								</div>
+								<div>
+									{{message}}
 								</div>
 							</form>
 						</div>
@@ -74,4 +94,5 @@
 
 		</div>
 	</div>	<!-- /container -->
+</form>
 {% endblock %}
