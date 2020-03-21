@@ -1,10 +1,14 @@
 from flask import Flask, render_template, request
 from flask_bootstrap import Bootstrap
+from forms.register_form import RegisterForm
+
 import os
 
 
 app = Flask(__name__)
 Bootstrap(app)
+app.config['SECRET_KEY'] = "my_secret_key"
+
 
 @app.route('/')
 @app.route('/index')
@@ -38,8 +42,9 @@ def signin():
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
+    form = RegisterForm()
     if request.method == 'GET':
-        return render_template("signup.html", title='Регистрация')
+        return render_template("signup.html", title='Регистрация', form=form)
     else:
         # TODO: POST
         pass
